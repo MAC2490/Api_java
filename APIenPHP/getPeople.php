@@ -10,13 +10,13 @@
 	    $data = $list->fetchAll();
 		echo json_encode((sizeof($data)>0)? $data[0] : $data);
 	}else{
-        $answer = [
+        $response = [
                         'status' => false,
                         'mesagge' => "ERROR##DATA##GET",
                         '$_GET' => $_GET,
                         '$_POST' => $_POST
                       ];
-        echo json_encode($answer);
+        echo json_encode($response);
     }
     
 ?>

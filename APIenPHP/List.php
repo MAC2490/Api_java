@@ -7,9 +7,9 @@
 
     $list = $data_base->query("SELECT * FROM people");
     $data = $list->fetchAll();
-    echo $data;
-    $answer['register'] = $data;
-    echo json_encode($answer);
+
+    $response['register'] = $data;
+    echo json_encode($response);
     
 ?>
 

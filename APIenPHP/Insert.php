@@ -5,11 +5,9 @@
     
     include 'Conexion.php';
 
-    $document = $_POST['document'];
-
     if (!empty($_POST['document']) and !empty($_POST['name']) and !empty($_POST['last_name']) ) {
 
-        $document = $_POST['document'];
+        $documento = $_POST['document'];
         $name = $_POST['name'];
         $last_name = $_POST['last_name'];
         $phone = $_POST['phone'];
@@ -17,9 +15,9 @@
         $email = $_POST['email'];
 
         try {
-            $list = $data_base->prepare("UPDATE people SET name=:nom, last_name=:ape, phone=:tel, address=:dir, email=:ema WHERE document = :doc ");
+            $list = $data_base->prepare("INSERT INTO people (document, name, last_name, phone, address, email) VALUES(:doc, :nom, :ape, :tel, :dir, :ema) ");
 
-            $list->bindParam(':doc', $document);
+            $list->bindParam(':doc', $documento);
             $list->bindParam(':nom', $name);
             $list->bindParam(':ape', $last_name);
             $list->bindParam(':tel', $phone);
@@ -29,34 +27,33 @@
             $process = $list->execute();
 
             if( $process ){
-                $answer = [
+                $response = [
                                 'status' => true,
-                                'mesagge' => "OK##CLIENT##UPDATE"
+                                'mesagge' => "OK##CLIENT##INSERT"
                               ];
-                echo json_encode($answer);
+                echo json_encode($response);
             }else{
-                $answer = [
+                $response = [
                                 'status' => false,
-                                'mesagge' => "ERROR##CLIENT##UPDATE"
+                                'mesagge' => "ERROR##CLIENT##INSERT"
                               ];
-                echo json_encode($answer);
+                echo json_encode($response);
             }
         } catch (Exception $e) {
-            $answer = [
+            $response = [
                             'status' => false,
                             'mesagge' => "ERROR##SQL",
                             'exception' => $e
                           ];
-            echo json_encode($answer);
+            echo json_encode($response);
         }
     }else{
-        $answer = [
+        $response = [
                         'status' => false,
                         'mesagge' => "ERROR##DATOS##POST",
                         '$_GET' => $_GET,
-                        '$_POST' => $_POST,
-                        'document' => $document,
+                        '$_POST' => $_POST
                       ];
-        echo json_encode($answer);
+        echo json_encode($response);
     }
 ?>
